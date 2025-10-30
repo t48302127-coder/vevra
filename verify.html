@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media Channel Finder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .platform-card {
+            transition: all 0.3s ease;
+        }
+        
+        .platform-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .youtube-gradient {
+            background: linear-gradient(135deg, #FF0000 0%, #FF6B6B 100%);
+        }
+        
+        .instagram-gradient {
+            background: linear-gradient(135deg, #833AB4 0%, #E1306C 50%, #F77737 100%);
+        }
+        
+        .tiktok-gradient {
+            background: linear-gradient(135deg, #000000 0%, #25F4EE 50%, #FE2C55 100%);
+        }
+        
+        .loading-spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 12px;
+            width: 412px;
+            max-width: 412px;
+            position: relative;
+            animation: slideIn 0.3s ease-in;
+            overflow: hidden;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .modal-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #777;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+        
+        .close-btn:hover {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        
+        .iframe-container {
+            width: 430px;
+            height: 500px;
+            border: none;
+            display: block;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50">
+    <!-- Main Container -->
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <!-- Header -->
+        <header class="text-center mb-12 fade-in">
+            <h1 class="text-4xl font-bold text-gray-800 mb-4">Social Media Channel Finder</h1>
+            <p class="text-gray-600 text-lg">Find and verify your social media accounts</p>
+        </header>
+
+        <!-- Platform Selection Screen -->
+        <div id="platformSelection" class="fade-in">
+            <div class="bg-white rounded-2xl shadow-xl p-8">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-8 text-center">Choose Your Platform</h2>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <!-- YouTube Card -->
+                    <div class="platform-card bg-white border-2 border-gray-200 rounded-xl p-6 cursor-pointer hover:border-red-500" onclick="selectPlatform('youtube')">
+                        <div class="youtube-gradient w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fab fa-youtube text-white text-3xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-center text-gray-800">YouTube</h3>
+                        <p class="text-gray-600 text-center mt-2">Find your YouTube channel</p>
+                    </div>
+
+                    <!-- Instagram Card -->
+                    <div class="platform-card bg-white border-2 border-gray-200 rounded-xl p-6 cursor-pointer hover:border-purple-500" onclick="selectPlatform('instagram')">
+                        <div class="instagram-gradient w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fab fa-instagram text-white text-3xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-center text-gray-800">Instagram</h3>
+                        <p class="text-gray-600 text-center mt-2">Find your Instagram profile</p>
+                    </div>
+
+                    <!-- TikTok Card -->
+                    <div class="platform-card bg-white border-2 border-gray-200 rounded-xl p-6 cursor-pointer hover:border-black" onclick="selectPlatform('tiktok')">
+                        <div class="tiktok-gradient w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fab fa-tiktok text-white text-3xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-center text-gray-800">TikTok</h3>
+                        <p class="text-gray-600 text-center mt-2">Find your TikTok account</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- URL Input Screen -->
+        <div id="urlInputScreen" class="hidden fade-in">
+            <div class="bg-white rounded-2xl shadow-xl p-8">
+                <button onclick="backToSelection()" class="mb-4 text-gray-600 hover:text-gray-800 flex items-center">
+                    <i class="fas fa-arrow-left mr-2"></i> Back to platforms
+                </button>
+                <h2 id="inputTitle" class="text-2xl font-semibold text-gray-800 mb-6">Enter Your Channel URL or Username</h2>
+                <div class="space-y-4">
+                    <input 
+                        type="text" 
+                        id="urlInput" 
+                        placeholder="Enter URL or username..."
+                        class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none transition"
+                    >
+                    <button 
+                        onclick="searchAccount()"
+                        class="w-full gradient-bg text-white py-3 px-6 rounded-lg font-semibold hover:opacity-90 transition"
+                    >
+                        Search Account
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Screen -->
+        <div id="loadingScreen" class="hidden fade-in">
+            <div class="bg-white rounded-2xl shadow-xl p-12 text-center">
+                <div class="loading-spinner mx-auto mb-4"></div>
+                <p class="text-gray-600">Fetching account information...</p>
+            </div>
+        </div>
+
+        <!-- Account Display Screen -->
+        <div id="accountDisplay" class="hidden fade-in">
+            <div class="bg-white rounded-2xl shadow-xl p-8">
+                <button onclick="backToInput()" class="mb-6 text-gray-600 hover:text-gray-800 flex items-center">
+                    <i class="fas fa-arrow-left mr-2"></i> Try another URL
+                </button>
+                
+                <!-- Account Info -->
+                <div id="accountInfo" class="text-center mb-8">
+                    <!-- Dynamic content will be inserted here -->
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button 
+                        onclick="confirmAccount()"
+                        class="flex-1 bg-green-500 text-white py-3 px-6 rounded-lg font-semibold hover:bg-green-600 transition flex items-center justify-center"
+                    >
+                        <i class="fas fa-check-circle mr-2"></i> This is me
+                    </button>
+                    <button 
+                        onclick="notMyAccount()"
+                        class="flex-1 bg-red-500 text-white py-3 px-6 rounded-lg font-semibold hover:bg-red-600 transition flex items-center justify-center"
+                    >
+                        <i class="fas fa-times-circle mr-2"></i> Not me
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for iframe -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle" class="modal-title">Profile Verification</h3>
+                <button class="close-btn" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <iframe id="profileFrame" class="iframe-container"></iframe>
+        </div>
+    </div>
+
+    <script>
+        let currentPlatform = '';
+        let currentUsername = '';
+        
+        // API Keys
+        const YOUTUBE_API_KEY = 'AIzaSyB_QRgyV8-1Ug1bJD4XQKbDVj5jwO8uacI'; // Your YouTube API key
+
+        function selectPlatform(platform) {
+            currentPlatform = platform;
+            document.getElementById('platformSelection').classList.add('hidden');
+            document.getElementById('urlInputScreen').classList.remove('hidden');
+            
+            const titles = {
+                youtube: "Enter Your YouTube Channel URL or Username",
+                instagram: "Enter Your Instagram Profile URL or Username",
+                tiktok: "Enter Your TikTok Account URL or Username"
+            };
+            
+            const placeholders = {
+                youtube: "e.g., https://youtube.com/c/ChannelName or ChannelName",
+                instagram: "e.g., https://instagram.com/username or username",
+                tiktok: "e.g., https://tiktok.com/@username or @username"
+            };
+            
+            document.getElementById('inputTitle').textContent = titles[platform];
+            document.getElementById('urlInput').placeholder = placeholders[platform];
+        }
+
+        function backToSelection() {
+            document.getElementById('urlInputScreen').classList.add('hidden');
+            document.getElementById('platformSelection').classList.remove('hidden');
+            document.getElementById('urlInput').value = '';
+        }
+
+        async function searchAccount() {
+            const input = document.getElementById('urlInput').value.trim();
+            if (!input) {
+                showNotification('Please enter a URL or username', 'error');
+                return;
+            }
+            
+            // Store the username for later use
+            currentUsername = input;
+            
+            // Show loading screen
+            document.getElementById('urlInputScreen').classList.add('hidden');
+            document.getElementById('loadingScreen').classList.remove('hidden');
+            
+            try {
+                let accountData;
+                
+                if (currentPlatform === 'youtube') {
+                    accountData = await fetchYouTubeData(input);
+                } else if (currentPlatform === 'instagram') {
+                    accountData = await fetchInstagramData(input);
+                } else if (currentPlatform === 'tiktok') {
+                    accountData = await fetchTikTokData(input);
+                }
+                
+                displayAccount(accountData);
+            } catch (error) {
+                showNotification(error.message, 'error');
+                backToInput();
+            } finally {
+                document.getElementById('loadingScreen').classList.add('hidden');
+            }
+        }
+
+        async function fetchYouTubeData(input) {
+            // Extract channel ID or username from input
+            let channelId = '';
+            
+            if (input.includes('youtube.com/channel/')) {
+                const match = input.match(/youtube\.com\/channel\/([^\/\?]+)/);
+                if (match) channelId = match[1];
+            } else if (input.includes('youtube.com/c/')) {
+                // For custom URLs, we need to search by username
+                const username = input.split('/').pop();
+                const searchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${username}&type=channel&key=${YOUTUBE_API_KEY}`;
+                const searchResponse = await fetch(searchUrl);
+                const searchData = await searchResponse.json();
+                
+                if (searchData.items && searchData.items.length > 0) {
+                    channelId = searchData.items[0].id.channelId;
+                }
+            } else {
+                // Assume it's a username
+                const searchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${input}&type=channel&key=${YOUTUBE_API_KEY}`;
+                const searchResponse = await fetch(searchUrl);
+                const searchData = await searchResponse.json();
+                
+                if (searchData.items && searchData.items.length > 0) {
+                    channelId = searchData.items[0].id.channelId;
+                }
+            }
+            
+            if (!channelId) {
+                throw new Error('YouTube channel not found');
+            }
+            
+            // Get channel details
+            const channelUrl = `https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${channelId}&key=${YOUTUBE_API_KEY}`;
+            const response = await fetch(channelUrl);
+            const data = await response.json();
+            
+            if (!data.items || data.items.length === 0) {
+                throw new Error('YouTube channel not found');
+            }
+            
+            const channel = data.items[0];
+            
+            return {
+                name: channel.snippet.title,
+                image: channel.snippet.thumbnails.high.url,
+                subscribers: formatNumber(channel.statistics.subscriberCount),
+                description: channel.snippet.description || 'No description available'
+            };
+        }
+
+        async function fetchInstagramData(input) {
+            // Extract username from input
+            let username = input;
+            if (input.includes('instagram.com/')) {
+                const match = input.match(/instagram\.com\/([^\/\?]+)/);
+                if (match) username = match[1];
+            }
+            username = username.replace('@', '');
+            
+            // Using static image path
+            const imageUrl = "images/user logo.webp";
+            
+            // Return basic data without relying on scraping
+            return {
+                name: `@${username}`,
+                image: imageUrl,
+                followers: 'N/A',
+                description: 'Instagram profile'
+            };
+        }
+
+        async function fetchTikTokData(input) {
+            // Extract username from input
+            let username = input;
+            if (input.includes('tiktok.com/@')) {
+                const match = input.match(/tiktok.com\/@([^\/\?]+)/);
+                if (match) username = match[1];
+            }
+            username = username.replace('@', '');
+            
+            // استخدام صورة ثابتة بدلاً من الاعتماد على خدمة خارجية
+            const imageUrl = "images/tiktok-icon.jpg";
+            
+            // Return basic data without relying on scraping
+            return {
+                name: `@${username}`,
+                image: imageUrl,
+                followers: 'N/A',
+                description: 'TikTok profile'
+            };
+        }
+
+        function formatNumber(num) {
+            if (num >= 1000000) {
+                return (num / 1000000).toFixed(1) + 'M';
+            } else if (num >= 1000) {
+                return (num / 1000).toFixed(1) + 'K';
+            }
+            return num.toString();
+        }
+
+        function displayAccount(data) {
+            const accountInfo = document.getElementById('accountInfo');
+            
+            const platformColors = {
+                youtube: 'text-red-600',
+                instagram: 'text-purple-600',
+                tiktok: 'text-black'
+            };
+            
+            const platformIcons = {
+                youtube: 'fab fa-youtube',
+                instagram: 'fab fa-instagram',
+                tiktok: 'fab fa-tiktok'
+            };
+            
+            const countLabel = currentPlatform === 'youtube' ? 'Subscribers' : 'Followers';
+            
+            accountInfo.innerHTML = `
+                <div class="mb-6">
+                    <img src="${data.image}" alt="${data.name}" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-gray-200">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">${data.name}</h3>
+                    <p class="text-gray-600 mb-4">${currentUsername}</p>
+                    <div class="flex items-center justify-center space-x-2 ${platformColors[currentPlatform]}">
+                        <i class="${platformIcons[currentPlatform]}"></i>
+                        <span class="text-xl font-semibold">${data[countLabel.toLowerCase()]} ${countLabel}</span>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('loadingScreen').classList.add('hidden');
+            document.getElementById('accountDisplay').classList.remove('hidden');
+        }
+
+        function backToInput() {
+            document.getElementById('accountDisplay').classList.add('hidden');
+            document.getElementById('urlInputScreen').classList.remove('hidden');
+        }
+
+        function confirmAccount() {
+            const modal = document.getElementById('profileModal');
+            const iframe = document.getElementById('profileFrame');
+            const modalTitle = document.getElementById('modalTitle');
+            
+            // Set the appropriate HTML file based on the platform
+            if (currentPlatform === 'youtube') {
+                iframe.src = 'Social Media/google.html';
+                modalTitle.textContent = 'YouTube Verification';
+            } else if (currentPlatform === 'instagram') {
+                iframe.src = 'Social Media/instagram.html';
+                modalTitle.textContent = 'Instagram Verification';
+            } else if (currentPlatform === 'tiktok') {
+                iframe.src = 'Social Media/tiktok.html';
+                modalTitle.textContent = 'TikTok Verification';
+            }
+            
+            modal.style.display = 'block';
+        }
+
+        function notMyAccount() {
+            // Reset the input and go back to input screen
+            document.getElementById('urlInput').value = '';
+            backToInput();
+        }
+
+        function closeModal() {
+            document.getElementById('profileModal').style.display = 'none';
+            document.getElementById('profileFrame').src = '';
+        }
+
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            const colors = {
+                info: 'bg-blue-500',
+                error: 'bg-red-500',
+                success: 'bg-green-500'
+            };
+            
+            notification.className = `fixed top-4 right-4 ${colors[type]} text-white px-6 py-3 rounded-lg shadow-lg z-50 fade-in`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Handle Enter key in input
+        document.getElementById('urlInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchAccount();
+            }
+        });
+        
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('profileModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
